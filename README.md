@@ -1,58 +1,60 @@
-# 🔍 DataForge AI — Smart E-Commerce Intelligence Platform
+# DataCart AI
 
-> Prompt-driven automated system for generating structured e-commerce datasets using natural language.
+Interactive product discovery app for budget shopping queries like `phones under 10k` or `laptops under 30000`.
 
-## 🚀 Quick Start
+## What It Does
 
-```bash
-git clone https://github.com/yourname/dataforge-ai.git
-cd dataforge-ai
-cp .env.example .env
-make dev
-```
+- Natural-language product search
+- Budget-aware filtering and ranking
+- Interactive landing page and search dashboard
+- Product detail modal with fit explanation
+- Saved list and radar-style comparison
+- CSV dataset export
+- Price-drop reminder storage
+- Live outbound marketplace search links
 
-## 🏗️ Architecture
+## Stack
 
-```
-User Prompt → NLP Filter Extraction → Multi-Platform Scraper → Data Cleaner → Dataset Output
-                                          ↕                          ↕
-                                    MLflow Tracking          Airflow Orchestration
-```
+- Frontend: HTML, CSS, JavaScript, Chart.js
+- Backend: FastAPI, Python
 
-## 🧩 Tech Stack
+## Run Locally
 
-| Layer       | Technology                              |
-|-------------|------------------------------------------|
-| Frontend    | React 18 + TypeScript + Vite + Tailwind  |
-| Backend     | FastAPI + Python 3.11                    |
-| ML/NLP      | spaCy + HuggingFace Transformers         |
-| Scraping    | Playwright + BeautifulSoup4              |
-| MLOps       | MLflow + Apache Airflow + DVC            |
-| Database    | PostgreSQL + Redis                       |
-| Monitoring  | Prometheus + Grafana                     |
-| CI/CD       | GitHub Actions + Docker + K8s            |
-
-## 📦 Features
-- 🗣️ Natural language prompt → structured dataset
-- 🕷️ Multi-platform scraping (Amazon, Flipkart, Meesho)
-- 🧠 NLP-based filter extraction
-- 📊 Product comparison & recommendations
-- 💾 Export to CSV / JSON / Excel
-- 📈 Full MLOps pipeline with experiment tracking
-- 🔄 Automated retraining & versioning
-
-## 🛠️ Development
+### Backend
 
 ```bash
-make frontend   # start frontend dev server
-make backend    # start backend API server
-make airflow    # start Airflow scheduler
-make mlflow     # start MLflow UI
-make monitor    # start Prometheus + Grafana
+cd backend
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
-## 📁 Folder Structure
-See FILE_STRUCTURE.md for a detailed breakdown.
+### Frontend
 
-## 📄 License
-MIT
+Serve the `frontend` folder with any static server. One simple option:
+
+```bash
+cd frontend
+python -m http.server 5173
+```
+
+Then open:
+
+- Frontend: `http://127.0.0.1:5173`
+- Backend: `http://127.0.0.1:8000`
+
+## Project Structure
+
+```text
+backend/
+  app/
+    api/routes.py
+    catalog.py
+    main.py
+frontend/
+  app.js
+  index.html
+  style.css
+docker-compose.yml
+```
