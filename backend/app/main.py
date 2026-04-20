@@ -1,24 +1,27 @@
+"""
+DataCartAI — FastAPI main entry point
+"""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import routes
+from app.api.routes import router
 
 app = FastAPI(
-    title="DataCart MLOps API",
-    description="Backend API for the DataCart Walkthrough via FastAPI",
-    version="1.0.0"
+    title="DataCartAI API",
+    description="Smart product discovery API — phones, laptops, earbuds under budget",
+    version="2.0.0",
 )
 
-# Enable CORS for the React frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, restrict this to the frontend URL
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.include_router(routes.router, prefix="/api/v1")
+app.include_router(router)
+
 
 @app.get("/")
-def health_check():
-    return {"status": "healthy", "service": "DataCart ML API"}
+async def root():
+    return {"message": "DataCartAI API v2.0 is running", "docs": "/docs"}

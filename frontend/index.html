@@ -1,189 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataCart AI</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DataCart AI — Smart Shopping</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <section id="view-landing" class="view active">
-        <div class="aurora aurora-one"></div>
-        <div class="aurora aurora-two"></div>
-        <header class="topbar hero-topbar">
-            <div class="brand">
-                <span class="brand-mark">DC</span>
-                <div>
-                    <strong>DataCart AI</strong>
-                    <small>Find smarter. Compare visually.</small>
-                </div>
-            </div>
-        </header>
 
-        <main class="hero-shell">
-            <div class="hero-copy">
-                <p class="eyebrow">Interactive product discovery</p>
-                <h1>Start with a fun launch, then drill down into the exact gadgets you want.</h1>
-                <p class="hero-text">
-                    Search natural language queries like "phones under 10k with good battery", save the ones you love,
-                    compare them pictographically, and jump out to live marketplace searches for better prices.
-                </p>
-                <div class="hero-actions">
-                    <button class="btn btn-primary" onclick="app.enterSearch()">Open Search Portal</button>
-                    <button class="btn btn-secondary" onclick="app.usePrompt('phones under 10k with good battery')">Try a Sample</button>
-                </div>
-                <div class="hero-prompts">
-                    <button class="prompt-chip" onclick="app.usePrompt('phones under 10k with 5g')">phones under 10k with 5g</button>
-                    <button class="prompt-chip" onclick="app.usePrompt('best camera phone under 15k')">best camera phone under 15k</button>
-                    <button class="prompt-chip" onclick="app.usePrompt('laptop under 50k for coding')">laptop under 50k for coding</button>
-                </div>
-            </div>
+<!-- ═══════════════════════════════════════ LANDING PAGE ═══════ -->
+<section id="landing">
+  <canvas id="particle-canvas"></canvas>
 
-            <div class="portal-card glass-card" onclick="app.enterSearch()">
-                <div class="portal-core">
-                    <div class="orbit orbit-a"></div>
-                    <div class="orbit orbit-b"></div>
-                    <div class="portal-button">
-                        <span>Tap To Enter</span>
-                    </div>
-                </div>
-                <p class="portal-caption">Landing interaction inspired by playful discovery experiences.</p>
-            </div>
-        </main>
-    </section>
+  <div class="landing-content">
+    <div class="logo-badge">DataCart AI</div>
+    <h1 class="hero-title">
+      <span class="line1">Find Your</span>
+      <span class="line2">Perfect</span>
+      <span class="line3">Gadget.</span>
+    </h1>
+    <p class="hero-sub">Phones · Laptops · Earbuds — all under your budget</p>
 
-    <section id="view-app" class="view">
-        <header class="topbar">
-            <div class="brand" onclick="app.goHome()">
-                <span class="brand-mark">DC</span>
-                <div>
-                    <strong>DataCart AI</strong>
-                    <small>Discovery cockpit</small>
-                </div>
-            </div>
-            <div class="topbar-actions">
-                <button class="btn btn-secondary" onclick="app.downloadDataset()">Download Dataset</button>
-                <button class="btn btn-secondary" onclick="app.openCompare()">Compare <span id="compareCount">0</span></button>
-            </div>
-        </header>
+    <button class="cta-btn" id="enterBtn">
+      <span class="cta-text">Start Exploring</span>
+      <span class="cta-arrow">→</span>
+    </button>
 
-        <main class="app-shell">
-            <section class="search-panel glass-card">
-                <p class="eyebrow">Natural language search</p>
-                <h2>Describe what you want.</h2>
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="phones under 10k with battery and 5g">
-                    <button class="btn btn-primary search-button" onclick="app.handleSearch()">Search</button>
-                </div>
-                <div class="quick-filters">
-                    <button class="mini-chip" onclick="app.usePrompt('phones under 10k')">Under 10k phones</button>
-                    <button class="mini-chip" onclick="app.usePrompt('phones under 15k amoled')">AMOLED under 15k</button>
-                    <button class="mini-chip" onclick="app.usePrompt('best battery phone under 20k')">Battery-focused</button>
-                    <button class="mini-chip" onclick="app.usePrompt('earbuds under 3k with anc')">Earbuds under 3k</button>
-                </div>
-                <div class="pipeline glass-inset" id="pipelineBox">
-                    <strong>Ready.</strong>
-                    <p>Your query will be parsed for category, budget, and feature intent.</p>
-                </div>
-            </section>
+    <div class="floating-chips">
+      <span class="chip">📱 Phones under 10k</span>
+      <span class="chip">💻 Laptops under 40k</span>
+      <span class="chip">🎧 Earbuds under 3k</span>
+      <span class="chip">⌚ Watches under 5k</span>
+    </div>
+  </div>
 
-            <section class="dashboard-shell">
-                <div class="results-column">
-                    <div class="section-head">
-                        <div>
-                            <p class="eyebrow">Ranked results</p>
-                            <h3 id="resultsTitle">Search to view products</h3>
-                        </div>
-                        <div class="tag-row" id="nlpTags"></div>
-                    </div>
-                    <div id="productGrid" class="product-grid empty-state">
-                        Search something like "phones under 10k" to see real filtered results.
-                    </div>
-                </div>
+  <div class="scroll-hint">scroll or click to explore</div>
+</section>
 
-                <aside class="insight-column">
-                    <div class="glass-card stat-card">
-                        <p class="eyebrow">Refine with NLP</p>
-                        <div class="refine-box">
-                            <input type="text" id="refineInput" placeholder="add more features like camera or amoled">
-                            <button class="btn btn-secondary" onclick="app.refineSearch()">Add</button>
-                        </div>
-                    </div>
+<!-- ═══════════════════════════════════════ APP SHELL ═════════ -->
+<section id="app" class="hidden">
 
-                    <div class="glass-card stat-card">
-                        <p class="eyebrow">Query analytics</p>
-                        <canvas id="sentimentChart" height="180"></canvas>
-                        <div class="stat-row">
-                            <div>
-                                <strong id="visibleCount">0</strong>
-                                <span>Visible</span>
-                            </div>
-                            <div>
-                                <strong id="avgPrice">Rs. 0</strong>
-                                <span>Avg price</span>
-                            </div>
-                        </div>
-                    </div>
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-logo">⚡ DataCart AI</div>
+    <nav class="topbar-nav">
+      <button class="nav-btn active" data-view="search">Search</button>
+      <button class="nav-btn" data-view="wishlist">❤️ Wishlist <span id="wishlist-count" class="badge">0</span></button>
+      <button class="nav-btn" data-view="compare">📊 Compare <span id="compare-count" class="badge">0</span></button>
+      <button class="nav-btn" data-view="reminders">🔔 Reminders <span id="reminder-count" class="badge">0</span></button>
+    </nav>
+  </header>
 
-                    <div class="glass-card stat-card">
-                        <p class="eyebrow">Saved list</p>
-                        <div id="watchlist" class="watchlist empty-state">You have not liked any products yet.</div>
-                    </div>
-                </aside>
-            </section>
-        </main>
-    </section>
-
-    <div id="productModal" class="modal-overlay">
-        <div class="modal glass-card modal-large">
-            <button class="close-btn" onclick="app.closeModal('productModal')">x</button>
-            <div class="modal-header">
-                <div>
-                    <p class="eyebrow">Product detail</p>
-                    <h2 id="modalProductName">Product</h2>
-                    <p id="modalSummary" class="muted"></p>
-                </div>
-                <div class="modal-price">
-                    <span id="modalPrice">Rs. 0</span>
-                    <small id="modalSource">Source</small>
-                </div>
-            </div>
-
-            <div class="modal-layout">
-                <div class="glass-inset">
-                    <h4>Why it fits</h4>
-                    <ul id="fitReasons" class="clean-list"></ul>
-                    <button class="btn btn-secondary full-width" onclick="app.askFitCoach()">Which user suits this best?</button>
-                    <div id="coachPanel" class="coach-panel hidden"></div>
-                </div>
-
-                <div class="glass-inset">
-                    <h4>Action station</h4>
-                    <div class="action-stack">
-                        <button class="btn btn-primary full-width" onclick="app.startLiveScraping()">Explore Best Price Now</button>
-                        <button class="btn btn-secondary full-width hidden" id="openListingBtn" onclick="app.openCurrentListing()">Open Listing Page</button>
-                        <button class="btn btn-secondary full-width" onclick="app.saveCurrentProduct()">Like And Save</button>
-                        <button class="btn btn-secondary full-width" onclick="app.setReminder()">Add Price Drop Reminder</button>
-                    </div>
-                    <div id="liveScrapeWrap" class="live-box hidden"></div>
-                </div>
-            </div>
-        </div>
+  <!-- ── SEARCH VIEW ─────────────────────────────────── -->
+  <div id="view-search" class="view active">
+    <div class="search-hero">
+      <h2 class="search-title">What are you looking for?</h2>
+      <div class="search-bar-wrap">
+        <input id="searchInput" class="search-bar" type="text"
+          placeholder="e.g. phones under 10000, laptops under 40k, earbuds under 2000…" />
+        <button id="searchBtn" class="search-submit">Search</button>
+      </div>
+      <div class="quick-tags">
+        <button class="quick-tag" data-q="phones under 10000">📱 Phones under ₹10k</button>
+        <button class="quick-tag" data-q="phones under 20000">📱 Phones under ₹20k</button>
+        <button class="quick-tag" data-q="laptops under 40000">💻 Laptops under ₹40k</button>
+        <button class="quick-tag" data-q="earbuds under 3000">🎧 Earbuds under ₹3k</button>
+        <button class="quick-tag" data-q="smartwatch under 5000">⌚ Watches under ₹5k</button>
+      </div>
     </div>
 
-    <div id="compareModal" class="modal-overlay">
-        <div class="modal glass-card modal-wide">
-            <button class="close-btn" onclick="app.closeModal('compareModal')">x</button>
-            <p class="eyebrow">Pictographic comparison</p>
-            <h2>Compare the gadgets you liked</h2>
-            <canvas id="compareChart" height="160"></canvas>
-        </div>
+    <!-- NLP Enrich bar -->
+    <div id="enrich-bar" class="enrich-bar hidden">
+      <span>✨ Enrich this dataset with AI:</span>
+      <input id="enrichInput" type="text" placeholder='e.g. "add battery life and screen size columns"' />
+      <button id="enrichBtn">Enrich</button>
+      <button id="downloadBtn">⬇ Download CSV</button>
     </div>
 
-    <script src="app.js"></script>
+    <!-- Results -->
+    <div id="results-section" class="results-section hidden">
+      <div class="results-header">
+        <h3 id="results-title">Results</h3>
+        <span id="results-count" class="results-count"></span>
+      </div>
+      <div id="product-grid" class="product-grid"></div>
+    </div>
+
+    <!-- Empty state -->
+    <div id="empty-state" class="empty-state">
+      <div class="empty-icon">🔍</div>
+      <p>Search for any product with a budget<br><em>"phones under 15000"</em></p>
+    </div>
+  </div>
+
+  <!-- ── WISHLIST VIEW ───────────────────────────────── -->
+  <div id="view-wishlist" class="view hidden">
+    <div class="view-header">
+      <h2>❤️ Your Wishlist</h2>
+      <button id="clearWishlistBtn" class="danger-btn">Clear All</button>
+    </div>
+    <div id="wishlist-grid" class="product-grid"></div>
+    <div id="wishlist-empty" class="empty-state">
+      <div class="empty-icon">💔</div>
+      <p>No saved phones yet.<br>Heart a product to save it here.</p>
+    </div>
+  </div>
+
+  <!-- ── COMPARE VIEW ────────────────────────────────── -->
+  <div id="view-compare" class="view hidden">
+    <div class="view-header">
+      <h2>📊 Compare Products</h2>
+      <button id="clearCompareBtn" class="danger-btn">Clear All</button>
+    </div>
+    <div id="compare-cards" class="compare-cards"></div>
+    <div id="compare-chart-wrap" class="compare-chart-wrap hidden">
+      <canvas id="compareChart"></canvas>
+    </div>
+    <div id="compare-empty" class="empty-state">
+      <div class="empty-icon">⚖️</div>
+      <p>Add products to compare side by side.<br>Click "Compare" on any product card.</p>
+    </div>
+  </div>
+
+  <!-- ── REMINDERS VIEW ─────────────────────────────── -->
+  <div id="view-reminders" class="view hidden">
+    <div class="view-header">
+      <h2>🔔 Price Drop Reminders</h2>
+    </div>
+    <div id="reminders-list" class="reminders-list"></div>
+    <div id="reminders-empty" class="empty-state">
+      <div class="empty-icon">🔕</div>
+      <p>No reminders set.<br>Open a product and set a target price.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════ PRODUCT MODAL ═════ -->
+<div id="product-modal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose">✕</button>
+
+    <div id="modal-content">
+      <!-- filled dynamically -->
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="modal-actions">
+      <button class="action-btn action-price" id="modalBestPrice">🌐 Explore Best Price</button>
+      <button class="action-btn action-fit"   id="modalFitMe">🤔 Is This Right for Me?</button>
+      <button class="action-btn action-heart" id="modalWishlist">❤️ Save to Wishlist</button>
+      <button class="action-btn action-chart" id="modalCompare">📊 Add to Compare</button>
+      <button class="action-btn action-bell"  id="modalReminder">🔔 Set Price Alert</button>
+    </div>
+
+    <!-- Sub-panels -->
+    <div id="price-panel" class="sub-panel hidden">
+      <h4>💸 Best Prices Found</h4>
+      <div id="price-results" class="price-results"></div>
+    </div>
+
+    <div id="fit-panel" class="sub-panel hidden">
+      <h4>🤔 Is This Right for You?</h4>
+      <div class="fit-questions">
+        <label>What will you mainly use it for?
+          <select id="fitUse">
+            <option value="gaming">Gaming</option>
+            <option value="camera">Camera / Photography</option>
+            <option value="work">Work / Productivity</option>
+            <option value="social">Social Media / Casual</option>
+            <option value="battery">Long Battery Life</option>
+          </select>
+        </label>
+        <label>How important is price?
+          <select id="fitPrice">
+            <option value="very">Very important — I want the cheapest</option>
+            <option value="balance">Balanced — Value for money</option>
+            <option value="premium">Not much — I want the best features</option>
+          </select>
+        </label>
+        <button id="fitAnalyzeBtn" class="action-btn action-fit">Analyse ✨</button>
+      </div>
+      <div id="fit-result" class="fit-result hidden"></div>
+    </div>
+
+    <div id="reminder-panel" class="sub-panel hidden">
+      <h4>🔔 Set Price Drop Alert</h4>
+      <div class="reminder-form">
+        <label>Target Price (₹)
+          <input type="number" id="reminderPrice" placeholder="e.g. 8500" />
+        </label>
+        <label>Your Email
+          <input type="email" id="reminderEmail" placeholder="you@example.com" />
+        </label>
+        <button id="saveReminderBtn" class="action-btn action-bell">Save Alert</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading overlay -->
+<div id="loading-overlay" class="loading-overlay hidden">
+  <div class="loader-ring"></div>
+  <p id="loading-msg">Searching…</p>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
