@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DataCart AI — Smart Product Discovery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ══════════════════ LANDING ══════════════════ -->
+<section id="landing">
+  <canvas id="grid-canvas"></canvas>
+  <div class="landing-inner">
+    <div class="landing-eyebrow">AI-Powered · Real-Time · ML Ranked</div>
+    <h1 class="landing-title">
+      <span>Find exactly</span>
+      <span class="accent-text">what you need.</span>
+    </h1>
+    <p class="landing-sub">
+      Type naturally. Our ML model understands specs —<br>
+      gaming phones, SPF sunscreens, water-based serums &amp; more.
+    </p>
+    <button id="enterBtn" class="landing-cta">
+      Start Searching
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+    <div class="landing-pills">
+      <span class="pill">🎮 Gaming phones</span>
+      <span class="pill">☀️ SPF 50 sunscreen</span>
+      <span class="pill">💻 Work laptops</span>
+      <span class="pill">💧 Water-based serums</span>
+      <span class="pill">💄 Long-wear lipstick</span>
+      <span class="pill">🔋 Battery life</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ APP ══════════════════════ -->
+<div id="app" class="hidden">
+
+  <nav class="topnav">
+    <div class="nav-brand" id="backBtn">DataCart<span>AI</span></div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-view="search">Search</button>
+      <button class="nav-tab" data-view="wishlist">❤️ Wishlist <span class="nbadge" id="badge-wishlist"></span></button>
+      <button class="nav-tab" data-view="compare">📊 Compare <span class="nbadge" id="badge-compare"></span></button>
+      <button class="nav-tab" data-view="reminders">🔔 Alerts <span class="nbadge" id="badge-reminders"></span></button>
+    </div>
+  </nav>
+
+  <!-- SEARCH VIEW -->
+  <div id="view-search" class="view active">
+    <div class="search-hero">
+      <div class="search-box-wrap">
+        <svg class="sicon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="searchInput" class="search-input" type="text" autocomplete="off"
+          placeholder='e.g. "gaming phone under 15000" or "spf sunscreen under 500"' />
+        <button id="searchBtn" class="search-submit">Search</button>
+      </div>
+      <div class="quick-tags">
+        <button class="qtag" data-q="gaming phone under 15000">🎮 Gaming ₹15k</button>
+        <button class="qtag" data-q="camera phone under 25000">📸 Camera ₹25k</button>
+        <button class="qtag" data-q="sunscreen spf 50 under 500">☀️ SPF sunscreen</button>
+        <button class="qtag" data-q="water based serum under 700">💧 Water serum</button>
+        <button class="qtag" data-q="long wear lipstick under 800">💄 Long-wear lip</button>
+        <button class="qtag" data-q="work laptop under 40000">💻 Work laptop</button>
+        <button class="qtag" data-q="battery phone under 12000">🔋 Battery phone</button>
+        <button class="qtag" data-q="budget earbuds under 1500">🎧 Budget earbuds</button>
+      </div>
+    </div>
+
+    <div id="enrich-bar" class="enrich-bar hidden">
+      <span>✨ Enrich with AI:</span>
+      <input id="enrichInput" type="text" placeholder='e.g. "add 5G flag and battery column"' />
+      <button id="enrichBtn">Enrich</button>
+      <button id="downloadBtn">⬇ Download CSV</button>
+    </div>
+
+    <div id="results-wrap" class="results-wrap hidden">
+      <div class="results-header">
+        <div>
+          <h2 id="results-title">Results</h2>
+          <span id="results-count"></span>
+        </div>
+        <span id="model-tag" class="model-tag"></span>
+      </div>
+      <div id="product-grid" class="product-grid"></div>
+    </div>
+
+    <div id="empty-state" class="empty-state">
+      <div class="empty-blob"></div>
+      <p class="empty-h">What are you looking for?</p>
+      <p class="empty-s">Describe it naturally — specs, budget, use-case</p>
+    </div>
+  </div>
+
+  <!-- WISHLIST VIEW -->
+  <div id="view-wishlist" class="view hidden">
+    <div class="view-header">
+      <h2>❤️ Wishlist</h2>
+      <button class="btn-danger" id="clearWishlist">Clear all</button>
+    </div>
+    <div id="wishlist-grid" class="product-grid"></div>
+    <div id="wishlist-empty" class="empty-state hidden">
+      <p class="empty-h">No saved products</p>
+      <p class="empty-s">Tap ❤️ on any product to save it here</p>
+    </div>
+  </div>
+
+  <!-- COMPARE VIEW -->
+  <div id="view-compare" class="view hidden">
+    <div class="view-header">
+      <h2>📊 Compare</h2>
+      <button class="btn-danger" id="clearCompare">Clear all</button>
+    </div>
+    <div id="compare-cards" class="compare-cards"></div>
+    <div id="compare-chart-wrap" class="chart-wrap hidden">
+      <canvas id="compareChart"></canvas>
+    </div>
+    <div id="compare-empty" class="empty-state hidden">
+      <p class="empty-h">Nothing to compare</p>
+      <p class="empty-s">Click "Compare" on any product to add it here</p>
+    </div>
+  </div>
+
+  <!-- REMINDERS VIEW -->
+  <div id="view-reminders" class="view hidden">
+    <div class="view-header"><h2>🔔 Price Drop Alerts</h2></div>
+    <div id="reminders-list" class="reminders-list"></div>
+    <div id="reminders-empty" class="empty-state hidden">
+      <p class="empty-h">No alerts set</p>
+      <p class="empty-s">Open a product and tap "Price Alert" to track it</p>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<!-- ══════════════════ PRODUCT MODAL ═══════════ -->
+<div id="modal-overlay" class="modal-overlay hidden">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+
+    <div id="modal-info"></div>
+    <div id="modal-explain" class="explain-box hidden"></div>
+
+    <div class="modal-btns">
+      <button class="mbtn mbtn-price"    id="mPrice">🌐 Best Price</button>
+      <button class="mbtn mbtn-heart"    id="mHeart">❤️ Wishlist</button>
+      <button class="mbtn mbtn-compare"  id="mCompare">📊 Compare</button>
+      <button class="mbtn mbtn-reminder" id="mReminder">🔔 Price Alert</button>
+    </div>
+
+    <div id="price-panel" class="mpanel hidden">
+      <h4>💸 Best Prices Across Stores</h4>
+      <div id="price-list"></div>
+    </div>
+
+    <div id="reminder-panel" class="mpanel hidden">
+      <h4>🔔 Set Price Drop Alert</h4>
+      <label>Target Price (₹) <input type="number" id="reminderPrice" placeholder="e.g. 8500" /></label>
+      <label>Email (optional) <input type="email"  id="reminderEmail" placeholder="you@email.com" /></label>
+      <button id="saveReminderBtn" class="btn-primary">Save Alert</button>
+    </div>
+  </div>
+</div>
+
+<!-- Loading overlay -->
+<div id="loading-overlay" class="loading-overlay hidden">
+  <div class="spinner"></div>
+  <p id="loading-msg">Searching…</p>
+</div>
+
+<!-- Toasts -->
+<div id="toasts"></div>
+
+<script src="app.js?v=2"></script>
+</body>
+</html>

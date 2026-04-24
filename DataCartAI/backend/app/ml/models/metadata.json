@@ -1,0 +1,65 @@
+{
+  "best_model": "LightGBM",
+  "feature_cols": [
+    "ram_n",
+    "storage_n",
+    "battery_n",
+    "camera_mp_n",
+    "processor_score_n",
+    "brand_trust_n",
+    "display_score_n",
+    "rating_n",
+    "spf_value_n",
+    "skin_compat_n",
+    "is_5g",
+    "is_water_based",
+    "fragrance_free",
+    "long_wear",
+    "price_n",
+    "cat_enc",
+    "f_gaming",
+    "f_photography",
+    "f_battery",
+    "f_work",
+    "f_5g",
+    "f_budget",
+    "f_spf",
+    "f_hydration",
+    "f_water_based",
+    "f_long_wear"
+  ],
+  "classes": [
+    "5g_connectivity",
+    "battery_life",
+    "budget_pick",
+    "gaming",
+    "general",
+    "long_wear_makeup",
+    "photography",
+    "skincare_hydration",
+    "spf_protection",
+    "water_based_skincare",
+    "work_productivity"
+  ],
+  "test_accuracy": 0.5263,
+  "mlflow_run_id": "7653b513922e4f6c8c7f8e080fa03bf3",
+  "intents": {
+    "electronics": [
+      "gaming",
+      "photography",
+      "battery_life",
+      "work_productivity",
+      "5g_connectivity"
+    ],
+    "cosmetics": [
+      "spf_protection",
+      "skincare_hydration",
+      "water_based_skincare",
+      "long_wear_makeup"
+    ],
+    "general": [
+      "budget_pick",
+      "general"
+    ]
+  }
+}
